@@ -19,70 +19,9 @@ function preload() {
   rainbows_data = loadBytes('data/rainbow.bin');
 }
 
-function prepareData(category, data, label) {
-  category.training = [];
-  category.testing = [];
-
-  for (let i = 0; i < total_data; i++) {
-    let offset = i * len;
-    let threshold = floor(total_data * 0.8);
-    if (i < threshold) {
-      category.training[i] = data.bytes.subarray(offset, offset + len);
-      category.training[i].label = label;
-    } else {
-      category.testing[i - threshold] = data.bytes.subarray(offset, offset + len);
-      category.testing[i - threshold].label = label;
-    }
-
-  }
-}
-
-function trainEpoch(training) {
-  shuffle(training, true);
-
-  // train for one EPOCH
-  for (let i = 0; i < training.length; i++) {
-    let data = training[i];
-    let inputs = data.map(x => x / 255.0);
-
-    let label = training[i].label;
-    let targets = [0, 0, 0];
-    targets[label] = 1;
-
-    nn.train(inputs, targets);
-  }
-
-  log("Completed one EPOCH");
-}
-
-function testAll(testing) {
-  let correct = 0;
-  for (let i = 0; i < testing.length; i++) {
-    let data = testing[i];
-    let inputs = data.map(x => x / 255.0);
-
-    let label = testing[i].label;
-    let guess = nn.predict(inputs);
-
-    // console.log(guess);
-    let m = max(guess);
-    let classification = guess.indexOf(m);
-    // console.log(classification);
-    //
-    // console.log(label);
-
-    if (classification == label)
-      correct++;
-
-  }
-
-  return correct / testing.length;
-
-}
-
 function setup() {
   createCanvas(280, 280);
-  background(0);
+  background(255);
 
   prepareData(cats, cats_data, CAT);
   prepareData(trains, trains_data, TRAIN);
@@ -100,13 +39,53 @@ function setup() {
   testing = testing.concat(rainbows.training);
   testing = testing.concat(trains.training);
 
+  let epochCounter = 0;
 
-  trainEpoch(training);
+  let trainButton = select("#train");
+  trainButton.mousePressed(() => {
+    trainEpoch(training);
+    epochCounter++;
+    console.log("Epoch: " + epochCounter);
+  });
 
-  let percent = testAll(testing);
 
-  print("% Correct: " + percent);
+  let testButton = select("#test");
+  testButton.mousePressed(() => {
+    let percent = testAll(testing);
+    // epochCounter++;
+    console.log("Percent: " + nf(percent, 2, 2) + "%");
+  });
 
+  let clearButton = select("#clear");
+  clearButton.mousePressed(() => {
+    background(255);
+  });
+
+
+  let guessButton = select("#guess");
+  guessButton.mousePressed(() => {
+    let inputs = [];
+    let img = get();
+    img.resize(28, 28);
+    console.log(img);
+    img.loadPixels();
+
+    for (let i = 0; i < len; i++) {
+      let bright = img.pixels[i * 4];
+      inputs[i] = (255 - bright) / 255.0;
+    }
+
+    console.log(inputs);
+
+  });
+
+
+  // for (let i = 0; i < 1; i++) {
+  //   trainEpoch(training);
+  //   print("Epoch: " + (i + 1));
+  //   let percent = testAll(testing);
+  //   print("% Correct: " + percent);
+  // }
   // display doodle's
   // let total = 100;
   // for(let n = 0;n<total ;n++){
@@ -126,4 +105,12 @@ function setup() {
   //     let y = floor(n / 10) * 28;
   //     image(img , x , y);
   // }
+}
+
+function draw() {
+  strokeWeight(8);
+  stroke(0);
+  if (mouseIsPressed) {
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  }
 }

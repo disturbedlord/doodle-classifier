@@ -4,12 +4,25 @@
     <meta charset="utf-8">
     <title></title>
     <script src="libraries/p5.js" charset="utf-8"></script>
+    <script src="libraries/prepareData.js" charset="utf-8"></script>
+    <script src="libraries/traintest.js" charset="utf-8"></script>
+
     <script src="sketch.js" charset="utf-8"></script>
+
     <script src="libraries/nn.js" charset="utf-8"></script>
     <script src="libraries/matrix.js" charset="utf-8"></script>
 
+    <style media="screen">
+      body{
+        background-color: grey;
+      }
+    </style>
+
   </head>
   <body>
-
+    <button id="train">Train</button>
+    <button id="test">Test</button>
+    <button id="guess">Guess</button>
+    <button id="clear">Clear</button>
   </body>
 </html>
