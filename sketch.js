@@ -42,8 +42,8 @@ function setup() {
   let epochCounter = 0;
 
   let trainButton = select("#train");
-  trainButton.mousePressed(() => {
-    trainEpoch(training);
+  trainButton.mousePressed(async () => {
+    await trainEpoch(training);
     epochCounter++;
     console.log("Epoch: " + epochCounter);
   });
@@ -56,7 +56,7 @@ function setup() {
     console.log("Percent: " + nf(percent, 2, 2) + "%");
   });
 
-  let clearButton = select("#clear");
+  let clearButton = select("#clearButton");
   clearButton.mousePressed(() => {
     background(255);
   });
@@ -67,7 +67,7 @@ function setup() {
     let inputs = [];
     let img = get();
     img.resize(28, 28);
-    console.log(img);
+    // console.log(img);
     img.loadPixels();
 
     for (let i = 0; i < len; i++) {
@@ -75,7 +75,25 @@ function setup() {
       inputs[i] = (255 - bright) / 255.0;
     }
 
-    console.log(inputs);
+    let guess = nn.predict(inputs);
+
+    let m = max(guess);
+    let classification = guess.indexOf(m);
+    switch (classification) {
+      case CAT:
+        console.log("Cat");
+        break;
+      case RAINBOW:
+        console.log("Rainbow");
+        break;
+      case TRAIN:
+        console.log("Train");
+        break;
+      default:
+
+    }
+    // image(img, 0, 0);
+    // console.log(inputs);
 
   });
 
@@ -108,7 +126,7 @@ function setup() {
 }
 
 function draw() {
-  strokeWeight(8);
+  strokeWeight(18);
   stroke(0);
   if (mouseIsPressed) {
     line(pmouseX, pmouseY, mouseX, mouseY);
