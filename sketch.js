@@ -20,7 +20,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(280, 280);
+  createCanvas(window.innerWidth, window.innerHeight);
   background(255);
 
   prepareData(cats, cats_data, CAT);
@@ -59,6 +59,7 @@ function setup() {
   let clearButton = select("#clearButton");
   clearButton.mousePressed(() => {
     background(255);
+    document.getElementById("predict").style.top = "-100px";
   });
 
 
@@ -79,15 +80,27 @@ function setup() {
 
     let m = max(guess);
     let classification = guess.indexOf(m);
+    var predictElement = document.getElementById("predict")
+    var predictText = document.getElementById("predictText");
+    document.getElementById("predict").style.top = "10px";
+
     switch (classification) {
       case CAT:
-        console.log("Cat");
+        console.log("cat");
+        predictText.innerText = "Cat";
+        work();
         break;
       case RAINBOW:
+
         console.log("Rainbow");
+        predictText.innerText = "rainbows";
+        work();
         break;
       case TRAIN:
+
         console.log("Train");
+        predictText.innerText = "Train";
+        work();
         break;
       default:
 

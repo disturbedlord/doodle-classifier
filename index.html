@@ -1,28 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <script src="libraries/p5.js" charset="utf-8"></script>
-    <script src="libraries/prepareData.js" charset="utf-8"></script>
-    <script src="libraries/traintest.js" charset="utf-8"></script>
 
-    <script src="sketch.js" charset="utf-8"></script>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="libraries/p5.js" charset="utf-8"></script>
+  <script src="libraries/prepareData.js" charset="utf-8"></script>
+  <script src="libraries/traintest.js" charset="utf-8"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <script src="sketch.js" charset="utf-8"></script>
 
-    <script src="libraries/nn.js" charset="utf-8"></script>
-    <script src="libraries/matrix.js" charset="utf-8"></script>
+  <script src="libraries/nn.js" charset="utf-8"></script>
+  <script src="libraries/matrix.js" charset="utf-8"></script>
 
-    <style media="screen">
-      body{
-        background-color: grey;
-      }
-    </style>
+  <style media="screen">
+    body {
+      font-family: 'Bangers', cursive;
+      background-color: white;
+    }
+  </style>
 
-  </head>
-  <body>
-    <button id="train">Train</button>
-    <button id="test">Test</button>
-    <button id="guess">Guess</button>
-    <button id="clearButton">Clear</button>
-  </body>
+</head>
+
+<body>
+  <div class="controls" style="position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 10px 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 5px 10px 20px #888888;
+  ">
+    <button id="train" class="btn">Train</button>
+    <button id="test" class="btn">Test</button>
+    <button id="guess" class="btn">Guess</button>
+    <button id="clearButton" class="btn">Clear</button>
+  </div>
+  <div class="predict" id="predict">
+    <p id="predictText">
+    <p>
+  </div>
+</body>
+<style media="screen">
+  .btn {
+    padding: 5px 8px;
+    margin: 0 6px;
+  }
+
+  .predict {
+    position: absolute;
+    top: -40px;
+    font-size: 30px;
+    font-weight: bold;
+    /* border: 2px solid black; */
+    border-radius: 5px;
+    display: inline-block;
+    /* padding: 1px 5px; */
+    letter-spacing: 3px;
+    transition: top 1s;
+  }
+
+  .predictHover {
+    top: 0px;
+  }
+</style>
+<script>
+  function work() {
+    var elem = document.getElementById("predict");
+    elem.classList.add("predictHover");
+  }
+</script>
+
 </html>
