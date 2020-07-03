@@ -93,7 +93,7 @@ function setup() {
       case RAINBOW:
 
         console.log("Rainbow");
-        predictText.innerText = "rainbows";
+        predictText.innerText = "Rainbow";
         work();
         break;
       case TRAIN:
